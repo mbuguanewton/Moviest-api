@@ -1,18 +1,20 @@
 import os
-from flask import Flask, make_response,jsonify
+from flask import Flask, make_response,jsonify, render_template
 from dotenv import load_dotenv
-from controller import Movie
+from .utils.controller import Movie
+from flask_cors import CORS
 
 load_dotenv(verbose=True)
 app = Flask(__name__)
+CORS(app, resources={r"/api/*":{"origin":"*"}} )
 
 
 @app.route('/')
 def index():
-    return '<h1> Welcome to the moviest api </h1>'
+    return render_template('index.html')
 
 
-@app.route('/fetchMovies', methods=['GET', 'POST'])
+@app.route('/api/v1/fetchmovies', methods=['GET', 'POST'])
 def fetch_movies():
     movie = Movie()
     movies = movie.fetch_movies()
@@ -22,7 +24,7 @@ def fetch_movies():
     return make_response(jsonify(movies), 200)
 
 
-@app.route('/recommendations/<title>', methods=['GET', 'POST'])
+@app.route('/api/v1/recommendations/<title>', methods=['GET', 'POST'])
 def fetch_recommendations(title):
     movie = Movie()
     movies = movie.fetch_recommendations(title)
