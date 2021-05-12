@@ -1,7 +1,7 @@
 import os
 from flask import Flask, make_response,jsonify, render_template
 from dotenv import load_dotenv
-from .utils.controller import Movie
+from utils.controller import Movie
 from flask_cors import CORS
 
 load_dotenv(verbose=True)
