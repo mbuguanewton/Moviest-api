@@ -1,5 +1,5 @@
 import os
-from flask import Flask, make_response,jsonify, render_template
+from flask import Flask, make_response,jsonify, render_template, request
 from dotenv import load_dotenv
 from utils.controller import Movie
 from flask_cors import CORS
@@ -17,7 +17,11 @@ def index():
 @app.route('/api/v1/fetchmovies', methods=['GET', 'POST'])
 def fetch_movies():
     movie = Movie()
-    movies = movie.fetch_movies()
+    limit = 10000
+    if request.args.get('limit'):
+        limit = int(request.args.get('limit'))
+    print(limit)
+    movies = movie.fetch_movies(limit)
     
     if not movies:
         return make_response('no movies available', 404)

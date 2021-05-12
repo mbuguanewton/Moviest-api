@@ -11,9 +11,9 @@ class Movie:
     def __init__(self):
         self.db = cursor.get_collection('movies')
         
-    def fetch_movies(self):
+    def fetch_movies(self,limit):
         try:
-            movies = self.db.find().limit(2000)
+            movies = self.db.find().limit(limit)
             
             if not movies:
                 return None
@@ -33,8 +33,6 @@ class Movie:
         try:
             recommender = Recommender()
             movies = self.fetch_movies()
-            
-            print(type(movies))
                         
             if not movies:
                 return None
