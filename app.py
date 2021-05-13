@@ -6,7 +6,7 @@ from flask_cors import CORS
 
 load_dotenv(verbose=True)
 app = Flask(__name__)
-CORS(app, resources={r"/api/*":{"origin":"*"}} )
+CORS(app)
 
 
 @app.route('/')
