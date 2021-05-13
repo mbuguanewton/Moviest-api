@@ -11,7 +11,7 @@ class Movie:
     def __init__(self):
         self.db = cursor.get_collection('movies')
         
-    def fetch_movies(self,limit):
+    def fetch_movies(self,limit=19000):
         try:
             movies = self.db.find().limit(limit)
             
@@ -39,7 +39,6 @@ class Movie:
             
             recommended=recommender.get_recommendations(movies, 'score', 'synopsis', title)
             
-            print(recommended)
             return recommended
         except Exception as e:
             print(e)
@@ -121,21 +120,16 @@ class Recommender:
             
             idx = item['indices'][title]
             
-            print(idx)
-
             sim_scores = list(enumerate(item['cosine'][idx]))
             sim_scores = sorted(sim_scores, key=lambda x:x[1], reverse=True)
 
             sim_scores = sim_scores[1:21]
             
-            print({'sim':sim_scores})
             
             recommended_indices = [i[0] for i in sim_scores]
             recommended = df.iloc[recommended_indices].to_dict('records')
             
-            print({'recommended':recommended})
 
             return recommended
         except Exception as error: 
-            print(error)
             return []

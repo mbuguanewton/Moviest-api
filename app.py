@@ -34,7 +34,7 @@ def fetch_recommendations(title):
     movies = movie.fetch_recommendations(title)
     
     if not movies:
-        return make_response('no recommendations available', 200)
+        return make_response([], 200)
     return make_response(jsonify(movies), 200)
 
 
