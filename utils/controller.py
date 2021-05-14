@@ -29,15 +29,18 @@ class Movie:
             print(e)
             return
         
-    def fetch_recommendations(self, title):
+    def fetch_recommendations(self, title, limit):
         try:
             recommender = Recommender()
-            movies = self.fetch_movies()
+            movies = self.fetch_movies(limit)
                         
             if not movies:
                 return None
             
             recommended=recommender.get_recommendations(movies, 'score', 'synopsis', title)
+            
+            if not recommended:
+                return None
             
             return recommended
         except Exception as e:
@@ -50,10 +53,7 @@ class Movie:
 class Recommender:
     def __init__(self):
         self.tfidf = TfidfVectorizer(stop_words='english')
-        
-    def remove_tags(sent):
-        data = re.compile(r"<.*?>")
-        return data.sub("", sent)
+   
 
     def create_dataframe(self, array):
         """

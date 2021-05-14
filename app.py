@@ -20,7 +20,6 @@ def fetch_movies():
     limit = 10000
     if request.args.get('limit'):
         limit = int(request.args.get('limit'))
-    print(limit)
     movies = movie.fetch_movies(limit)
     
     if not movies:
@@ -31,10 +30,15 @@ def fetch_movies():
 @app.route('/api/v1/recommendations/<title>', methods=['GET', 'POST'])
 def fetch_recommendations(title):
     movie = Movie()
-    movies = movie.fetch_recommendations(title)
+    
+    limit = 10000
+    if request.args.get('limit'):
+        limit = int(request.args.get('limit'))
+    
+    movies = movie.fetch_recommendations(title, limit)
     
     if not movies:
-        return make_response([], 200)
+        return make_response('', 200)
     return make_response(jsonify(movies), 200)
 
 
